@@ -1,4 +1,4 @@
-package org.maurezen.aoc.y2021
+package org.maurezen.aoc
 
 import org.maurezen.aoc.utils.readNumbersFromFile
 
