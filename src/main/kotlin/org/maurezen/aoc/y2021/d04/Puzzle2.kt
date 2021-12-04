@@ -1,8 +1,5 @@
 package org.maurezen.aoc.y2021.d04
 
-import org.maurezen.aoc.Puzzle
-import org.maurezen.aoc.utils.readFile
-
 open class Puzzle2: Puzzle1() {
     /**
      * Assuming equal string lengths
