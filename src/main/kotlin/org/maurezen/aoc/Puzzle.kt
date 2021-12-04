@@ -5,15 +5,17 @@ interface Puzzle<T, V> {
     /**
      * Runs this puzzle and returns a result
      */
-    fun run(input: List<T>): V
+    fun run(input: T): V
 
     fun inputName(): String
 
-    fun input(): List<T>
+    fun input(): T
+
+    fun dumpInput(input: T)
 
     fun solve() {
         val input = input()
-        input.forEach(System.out::println)
+        dumpInput(input)
 
         println("${this::class.simpleName} answer = ${run(input)}")
     }

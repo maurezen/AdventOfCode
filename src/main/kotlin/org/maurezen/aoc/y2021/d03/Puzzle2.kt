@@ -1,9 +1,6 @@
 package org.maurezen.aoc.y2021.d03
 
-import org.maurezen.aoc.Puzzle
-import org.maurezen.aoc.utils.readFile
-
-open class Puzzle2: Puzzle<String, Int> {
+open class Puzzle2: Puzzle1() {
     /**
      * Assuming equal string lengths
      * Assuming non-empty input
@@ -52,13 +49,6 @@ open class Puzzle2: Puzzle<String, Int> {
         return indexMap
     }
 
-    override fun inputName(): String {
-        return "/input03-1"
-    }
-
-    override fun input(): List<String> {
-        return readFile(inputName())
-    }
 }
 
 fun main() {

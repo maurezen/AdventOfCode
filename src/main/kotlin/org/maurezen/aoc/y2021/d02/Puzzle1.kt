@@ -1,10 +1,10 @@
 package org.maurezen.aoc.y2021.d02
 
-import org.maurezen.aoc.Puzzle
+import org.maurezen.aoc.ListPuzzle
 import org.maurezen.aoc.utils.readStuffFromFile
 import java.util.function.Consumer
 
-open class Puzzle1: Puzzle<Pair<Direction, Int>, Int> {
+open class Puzzle1: ListPuzzle<Pair<Direction, Int>, Int> {
     override fun run(input: List<Pair<Direction, Int>>): Int {
         var depth = 0
         var path = 0

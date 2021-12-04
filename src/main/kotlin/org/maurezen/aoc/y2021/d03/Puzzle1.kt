@@ -1,9 +1,9 @@
 package org.maurezen.aoc.y2021.d03
 
-import org.maurezen.aoc.Puzzle
+import org.maurezen.aoc.ListPuzzle
 import org.maurezen.aoc.utils.readFile
 
-open class Puzzle1: Puzzle<String, Int> {
+open class Puzzle1: ListPuzzle<String, Int> {
     /**
      * Assuming equal string lengths
      * Assuming non-empty input
