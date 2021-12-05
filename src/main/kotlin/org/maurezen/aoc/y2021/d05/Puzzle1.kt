@@ -11,11 +11,15 @@ open class Puzzle1: Puzzle<Pair<Int, List<Line>>, Int> {
     override fun run(input: Pair<Int, List<Line>>): Int {
         val floor = FloorMap(input.first)
 
-        input.second.forEach { floor.vent(it.first, it.second) }
+        input.second.forEach { applyVent(floor, it) }
 
         println(floor.toString())
 
         return floor.danger()
+    }
+
+    open fun applyVent(floor: FloorMap, vent: Line) {
+        floor.vent(vent.first, vent.second)
     }
 
     override fun inputName(): String {

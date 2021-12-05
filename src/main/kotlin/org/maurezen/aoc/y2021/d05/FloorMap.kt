@@ -1,6 +1,7 @@
 package org.maurezen.aoc.y2021.d05
 
 import java.lang.StringBuilder
+import kotlin.math.abs
 
 /**
  * Assumes square
@@ -12,6 +13,9 @@ class FloorMap(private val size: Int) {
 
     private val dangerThreshold = 2
 
+    /**
+     * Assumes lines are either vertical, horizontal or diagonal
+     */
     fun vent(start: Point, end: Point, allowDiagonal: Boolean = false) {
         //horizontal are fine
         if (start.first == end.first) {
@@ -29,8 +33,18 @@ class FloorMap(private val size: Int) {
                     danger++
                 }
             }
+            //we'll assume that every other line is diagonal
+        } else if (allowDiagonal) {
+            val sngY = (end.second - start.second) / abs(end.second - start.second)
+
+            interval(start.first, end.first).forEachIndexed { index, it ->
+                vents[it][start.second + index*sngY]++
+                if (dangerThreshold == vents[it][start.second + index*sngY]) {
+                    danger++
+                }
+            }
         }
-        //we don't really care about others atm
+
     }
 
     /**
