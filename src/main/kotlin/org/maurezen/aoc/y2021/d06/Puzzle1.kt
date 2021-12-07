@@ -1,10 +1,11 @@
 package org.maurezen.aoc.y2021.d06
 
+import org.maurezen.aoc.NumericCSVPuzzle
 import org.maurezen.aoc.NumericListPuzzle
 import org.maurezen.aoc.utils.readStuffFromFile
 import java.math.BigInteger
 
-open class Puzzle1: NumericListPuzzle<BigInteger> {
+open class Puzzle1: NumericCSVPuzzle<BigInteger> {
 
     override fun run(input: List<Int>): BigInteger {
         var shoal: Map<Fish, BigInteger> = input.groupBy { it }.mapValues { (_, list) -> BigInteger.valueOf(list.size*1L) }
@@ -35,17 +36,6 @@ open class Puzzle1: NumericListPuzzle<BigInteger> {
 
     override fun inputName(): String {
         return "/input06-1"
-    }
-
-    /**
-     * We assume there's a single comma-separated line of numbers
-     */
-    override fun input(): List<Int> {
-        return readStuffFromFile(inputName()) { it.split(",").map(Integer::parseInt) }[0]
-    }
-
-    override fun dumpInput(input: List<Int>) {
-        println(input.joinToString(","))
     }
 }
 
