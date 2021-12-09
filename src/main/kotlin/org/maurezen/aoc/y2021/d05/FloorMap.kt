@@ -74,3 +74,7 @@ class FloorMap(private val size: Int) {
 
 typealias Point = Pair<Int, Int>
 typealias Line = Pair<Point, Point>
+
+operator fun <E> List<List<E>>.get(point: Point): E {
+    return this[point.first][point.second]
+}
