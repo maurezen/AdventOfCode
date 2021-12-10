@@ -4,14 +4,14 @@ import org.maurezen.aoc.ListPuzzle
 import org.maurezen.aoc.utils.readFile
 import java.util.*
 
-open class Puzzle1 : ListPuzzle<String, Int> {
+open class Puzzle1 : ListPuzzle<String, Long> {
 
-    private var score = 0
+    private var score = 0L
 
-    private val brackets = mapOf(Pair('(', ')'), Pair('[', ']'), Pair('{', '}'), Pair('<', '>'))
+    protected val brackets = mapOf(Pair('(', ')'), Pair('[', ']'), Pair('{', '}'), Pair('<', '>'))
     private val scores = mapOf(Pair(')', 3), Pair(']', 57), Pair('}', 1197), Pair('>', 25137))
 
-    override fun run(input: List<String>): Int {
+    override fun run(input: List<String>): Long {
         input.forEach {
             val stack = ArrayDeque<Char>()
 
@@ -23,34 +23,31 @@ open class Puzzle1 : ListPuzzle<String, Int> {
                         stack.pop()
                     } else {
                         onCorruptedString(it, c)
+                        stack.clear()
                         break
                     }
                 } else {
-                    onNonBracketChar(it, c)
+                    stack.clear()
                     break
                 }
             }
 
-            if (stack.isEmpty()) {
-                onCorrectString(it)
-            } else {
+            if (!stack.isEmpty()) {
                 onIncompleteString(it, stack)
             }
         }
 
+        return getScore()
+    }
+
+    protected open fun getScore(): Long {
         return score
     }
 
-    private fun onIncompleteString(string: String, stack: Deque<Char>) {
+    protected open fun onIncompleteString(string: String, stack: Deque<Char>) {
     }
 
-    private fun onCorrectString(string: String) {
-    }
-
-    private fun onNonBracketChar(string: String, c: Char) {
-    }
-
-    private fun onCorruptedString(string: String, c: Char) {
+    protected open fun onCorruptedString(string: String, c: Char) {
         score += scores[c]!!
     }
 
