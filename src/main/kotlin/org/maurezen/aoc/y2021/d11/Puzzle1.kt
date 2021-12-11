@@ -12,7 +12,7 @@ open class Puzzle1 : org.maurezen.aoc.y2021.d09.Puzzle1() {
 
     override fun run(input: List<List<Int>>): Int {
         val octos = input.map(List<Int>::toMutableList).toMutableList()
-        repeat(steps) { _ ->
+        while (needAnotherStep()) {
             val powerOverwhelming = mutableSetOf<Point>()
             octos.forEachIndexed { i, row ->
                 row.forEachIndexed { j, _ ->
@@ -36,9 +36,17 @@ open class Puzzle1 : org.maurezen.aoc.y2021.d09.Puzzle1() {
                 powerOverwhelming.addAll(toFlash)
             }
 
-            score += powerOverwhelming.size
+            processFlashes(powerOverwhelming)
         }
         return score
+    }
+
+    protected open fun needAnotherStep(): Boolean {
+        return steps > 0
+    }
+
+    protected open fun processFlashes(powerOverwhelming: MutableSet<Point>) {
+        score += powerOverwhelming.size
     }
 
     override fun neighbours(input: List<List<Int>>, point: Point): List<Pair<Int, Int>> {
