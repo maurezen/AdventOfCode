@@ -23,7 +23,7 @@ open class Puzzle1 : Puzzle<List<List<Int>>, Int> {
         return score
     }
 
-    protected fun neighbours(
+    protected open fun neighbours(
         input: List<List<Int>>,
         point: Point
     ) = mutableSetOf(
@@ -33,7 +33,7 @@ open class Puzzle1 : Puzzle<List<List<Int>>, Int> {
         Pair(point.first, point.second + 1)
     ).filter { isOnMap(it, input) }
 
-    private fun isOnMap(
+    protected fun isOnMap(
         it: Point,
         input: List<List<Int>>
     ) = it.first >= 0 && it.first < input.size && it.second >= 0 && it.second < input.first().size
