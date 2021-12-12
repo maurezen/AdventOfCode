@@ -18,7 +18,7 @@ open class Puzzle1 : Puzzle<Pair<List<Cave>, Map<Cave, List<Passage>>>, Int> {
             val nextPath = queue.removeFirst()
 
             input.second[nextPath.last().to]!!.forEach { passage ->
-                if (passage.to.big || nextPath.none { it.to == passage.to || it.from == passage.to }) {
+                if (acceptable(passage, nextPath)) { //start-b + b-d unacceptable?.. nope let's investigate
                     val newPath = nextPath.toMutableList()
                     newPath.add(passage)
                     (if (passage.to == end) paths else queue).add(newPath)
@@ -32,6 +32,11 @@ open class Puzzle1 : Puzzle<Pair<List<Cave>, Map<Cave, List<Passage>>>, Int> {
 
         return paths.size
     }
+
+    protected open fun acceptable(
+        passage: Passage,
+        nextPath: List<Passage>
+    ) = passage.to.big || nextPath.none { it.from == passage.to }
 
     override fun inputName(): String {
         return "/input12-1"
