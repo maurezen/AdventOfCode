@@ -9,13 +9,23 @@ open class Puzzle1 : Puzzle<Pair<Array<BooleanArray>, List<Pair<Int, Int>>>, Int
     override fun run(input: Pair<Array<BooleanArray>, List<Pair<Int, Int>>>): Int {
         var dots = input.first
         val folds = input.second.toMutableList()
-        while (folds.isNotEmpty()) {
+        while (shouldFold(folds)) {
             dots = fold(dots, folds.removeFirst())
 
             dumpInput(Pair(dots, folds))
-            break
         }
         return countDots(dots)
+    }
+
+    private var notYetFolded = true
+
+    protected open fun shouldFold(folds: MutableList<Pair<Int, Int>>): Boolean {
+        return if (notYetFolded) {
+            notYetFolded = false
+            true
+        } else {
+            false
+        }
     }
 
     override fun inputName(): String {
