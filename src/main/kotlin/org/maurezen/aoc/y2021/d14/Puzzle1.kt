@@ -3,9 +3,9 @@ package org.maurezen.aoc.y2021.d14
 import org.maurezen.aoc.Puzzle
 import org.maurezen.aoc.utils.readFile
 
-open class Puzzle1 : Puzzle<Pair<String, List<Pair<String, String>>>, Int> {
+open class Puzzle1 : Puzzle<Pair<String, List<Pair<String, String>>>, Long> {
 
-    override fun run(input: Pair<String, List<Pair<String, String>>>): Int {
+    override fun run(input: Pair<String, List<Pair<String, String>>>): Long {
         var template = input.first
         val rules = input.second.toMap()
         repeat(steps()) {
@@ -14,15 +14,15 @@ open class Puzzle1 : Puzzle<Pair<String, List<Pair<String, String>>>, Int> {
         return score(template)
     }
 
-    private fun steps() = 10
+    protected open fun steps() = 10
 
     private fun apply(template: String, rules: Map<String, String>): String {
         return template.first() + template.windowed(2).joinToString("") { rules[it] + it.last() }
     }
 
-    private fun score(polymer: String): Int {
+    private fun score(polymer: String): Long {
         val sizes = polymer.toCharArray().groupBy { it }.mapValues { (_, v) -> v.size }.values
-        return sizes.maxOf { v -> v } - sizes.minOf { v -> v }
+        return (sizes.maxOf { v -> v } - sizes.minOf { v -> v }).toLong()
     }
 
     override fun inputName(): String {
