@@ -14,22 +14,20 @@ open class Puzzle1 : org.maurezen.aoc.y2021.d09.Puzzle1() {
         distancesFromStart[0][0] = 0
 
         val visited = mutableSetOf<Point>()
-        val yetToVisit = input.mapIndexed { x, list -> list.mapIndexed { y, _ -> Pair(x, y) } }.flatten().toMutableSet()
-        val previous = mutableMapOf<Point, Point>()
 
-        //no need for emptiness check as the end is guaranteed to be there
-        while (yetToVisit.isNotEmpty()) {
-            val next = yetToVisit.minByOrNull { distancesFromStart[it] }!!
-            yetToVisit.remove(next)
+        val yetToVisit = PriorityQueue<Point>(Comparator.comparing { distancesFromStart[it] })
+        yetToVisit.addAll(input.mapIndexed { x, list -> list.mapIndexed { y, _ -> Pair(x, y) } }.flatten())
 
-            if (next == end) break
+        while (yetToVisit.peek() != end) {
+            val next = yetToVisit.poll()
 
             val neighbours = neighbours(input, next).minus(visited)
             neighbours.forEach {
                 val newDistance = distancesFromStart[next] + input[it]
                 if (newDistance < distancesFromStart[it]) {
+                    yetToVisit.remove(it)
                     distancesFromStart[it] = newDistance
-                    previous[it] = next
+                    yetToVisit.offer(it)
                 }
             }
 
