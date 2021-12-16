@@ -21,7 +21,7 @@ open class Puzzle1 : Puzzle<Packet, Long> {
 
         println("hex = $hex")
         println("binary = $binary")
-        return parseSinglePacket(binary).first
+        return parseSinglePacket(binary.iterator())
     }
 
     override fun dumpInput(input: Packet) {
@@ -29,66 +29,55 @@ open class Puzzle1 : Puzzle<Packet, Long> {
     }
 
     private fun parseSinglePacket(
-        binary: String,
-        selector:  Int = 0
-    ): Pair<Packet, Int> {
-        var index = selector
-        val version = Integer.parseInt(binary, index, index + 3, 2)
-        index += 3
-        val typeId = Integer.parseInt(binary, index, index + 3, 2)
-        index += 3
-        if (typeId == 4) {
-            return parseLiteralValue(binary, index, version)
+        binary: CharIterator,
+    ): Packet {
+        val version = binary.take(3).toInt(2)
+        val typeId = binary.take(3).toInt(2)
+        return if (typeId == 4) {
+            parseLiteralValue(binary, version)
         } else {
-            val lengthTypeId = Integer.parseInt(binary, index, index + 1, 2)
-            index++
+            val lengthTypeId = binary.take(1).toInt(2)
 
             var length = 0
             var amount = 0
             if (lengthTypeId == 0) {
-                length = Integer.parseInt(binary, index, index + 15, 2)
-                index += 15
+                length = binary.take(15).toInt(2)
             } else {
-                amount = Integer.parseInt(binary, index, index + 11, 2)
-                index += 11
+                amount = binary.take(11).toInt(2)
             }
 
-            val subpackets = parseSubpackets(binary, index, length, amount)
-            return Pair(Operator(version, typeId, subpackets.first), subpackets.second)
+            val subpackets = parseSubpackets(binary, length, amount)
+            Operator(
+                version,
+                typeId,
+                subpackets,
+                6 + 1 + (if (amount == 0) 15 else 11) + subpackets.sumOf(Packet::length)
+            )
         }
     }
 
-    private fun parseSubpackets(binary: String, selector: Int, length: Int, amount: Int): Pair<List<Packet>, Int> {
+    private fun parseSubpackets(binary: CharIterator, length: Int, amount: Int): List<Packet> {
         val packets = mutableListOf<Packet>()
-        var index = selector
         repeat(amount) {
-            val pair = parseSinglePacket(binary, index)
-            packets.add(pair.first)
-            index = pair.second
+            packets.add(parseSinglePacket(binary))
         }
-        while (index - selector < length) {
-            val pair = parseSinglePacket(binary, index)
-            packets.add(pair.first)
-            index = pair.second
+        while (packets.sumOf(Packet::length) < length) {
+            packets.add(parseSinglePacket(binary))
         }
-        return Pair(packets, index)
+        return packets
     }
 
     private fun parseLiteralValue(
-        binary: String,
-        index: Int,
+        binary: CharIterator,
         version: Int
-    ): Pair<Packet, Int> {
-        var next = index
+    ): Packet {
         val digitParts = mutableListOf<CharSequence>()
         var tag: Char
         do {
-            tag = binary[next]
-            digitParts.add(binary.subSequence(next + 1, next + 5))
-            next += 5
+            tag = binary.take(1).first()
+            digitParts.add(binary.take(4).joinToString(""))
         } while ('1' == tag)
-        val literalValue = LiteralValue(version, digitParts.joinToString("").toLong(2))
-        return Pair(literalValue, next)
+        return LiteralValue(version, digitParts.joinToString("").toLong(2), 6 + 5*digitParts.size)
     }
 }
 
@@ -108,11 +97,11 @@ fun <T> aggregate(tree: Packet, neutral: T, aggregator: BiFunction<T, Packet, T>
     }
 }
 
-abstract class Packet(val version: Int, val typeId: Int) {
+abstract class Packet(val version: Int, val typeId: Int, val length: Int) {
     abstract fun evaluate(): Long
 }
 
-class LiteralValue(version: Int, private val value: Long) : Packet(version, 4) {
+class LiteralValue(version: Int, private val value: Long, length: Int) : Packet(version, 4, length) {
     override fun toString(): String {
         return "LiteralValue(version=$version typeId=$typeId value=$value)"
     }
@@ -120,7 +109,7 @@ class LiteralValue(version: Int, private val value: Long) : Packet(version, 4) {
     override fun evaluate(): Long = value
 }
 
-class Operator(version: Int, typeId: Int, val subpackets: List<Packet>): Packet(version, typeId) {
+class Operator(version: Int, typeId: Int, val subpackets: List<Packet>, length: Int): Packet(version, typeId, length) {
 
     private val type = Type.values()[typeId]
 
@@ -143,6 +132,14 @@ enum class Type(val evaluator: Function<Operator, Long>) {
     LESS(Function { if (it.subpackets.first().evaluate() < it.subpackets.last().evaluate()) 1L else 0L }),
     EQUAL(Function { if (it.subpackets.first().evaluate() == it.subpackets.last().evaluate()) 1L else 0L })
 }
+
+/**
+ * Returns a list of at most n next elements of the iterator provided.
+ * Throws if there is an insufficient amount of elements left.
+ */
+fun <T> Iterator<T>.take(n: Int): List<T> = (1..n).map { next() }
+
+fun List<Char>.toInt(radix: Int = 10) = Integer.parseInt(joinToString(""), radix)
 
 val hexCharset = mapOf(
     Pair('0', 0),
