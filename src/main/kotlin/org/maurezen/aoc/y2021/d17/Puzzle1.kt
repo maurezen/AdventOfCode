@@ -6,8 +6,8 @@ import org.maurezen.aoc.y2021.d05.Point
 
 open class Puzzle1 : Puzzle<Pair<Point, Point>, Int> {
 
-    //31 steps = -465 from gravity, more than enough to never hit anymore
-    private val steps = 31
+    //it appears that more steps still might be needed for pt2
+    private val steps = 31*8
 
     override fun run(input: Pair<Point, Point>): Int {
         val goodStarts = mutableListOf<Pair<Point, Int>>()
@@ -30,8 +30,11 @@ open class Puzzle1 : Puzzle<Pair<Point, Point>, Int> {
             }
         }
 
-        return goodStarts.maxOf { maxY(it.first.second, it.second) }
+        return score(goodStarts)
     }
+
+    protected open fun score(goodStarts: MutableList<Pair<Point, Int>>) =
+        goodStarts.maxOf { maxY(it.first.second, it.second) }
 
     private fun range(target: Int): IntRange {
         return if (target < 0) (target..-target) else (-target..target)
