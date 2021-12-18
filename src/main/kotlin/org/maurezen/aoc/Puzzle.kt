@@ -1,5 +1,7 @@
 package org.maurezen.aoc
 
+import kotlin.system.measureNanoTime
+
 interface Puzzle<T, V> {
 
     /**
@@ -17,6 +19,8 @@ interface Puzzle<T, V> {
         val input = input()
         dumpInput(input)
 
-        println("${this::class.simpleName} answer = ${run(input)}")
+        var result: V
+        val time = measureNanoTime { result = run(input) }
+        println("${this::class.simpleName} answer = $result in $time ns (${time/1000000} ms)")
     }
 }
