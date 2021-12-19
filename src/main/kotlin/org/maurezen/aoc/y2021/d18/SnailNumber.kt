@@ -17,10 +17,7 @@ class SnailNumber(var first: Node, var second: Node): Iterable<IntNode> {
     operator fun plus(another: SnailNumber): SnailNumber {
         val parent = SnailNumber(SnailNode(this), SnailNode(another))
 
-        do {
-            println(parent) //@todo
-            println(parent.iterationDump())
-        } while (parent.reduce())
+        while (parent.reduce()) {}
 
         return parent
     }
@@ -106,10 +103,6 @@ class SnailNumber(var first: Node, var second: Node): Iterable<IntNode> {
 
     override fun toString(): String {
         return "[$first,$second]"
-    }
-
-    private fun iterationDump(): String {
-        return "(${map(IntNode::value).joinToString(" -> ")})"
     }
 
     //we don't detect modifications, so you'd better not
