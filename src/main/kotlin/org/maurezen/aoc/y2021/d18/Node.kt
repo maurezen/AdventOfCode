@@ -11,4 +11,5 @@ abstract class Node(var left: IntNode? = null, var right: IntNode? = null) {
     abstract fun depthSet(depth: Int)
     abstract fun leftSet(target: IntNode?)
     abstract fun rightSet(target: IntNode?)
+    abstract fun deepCopy(): Node
 }

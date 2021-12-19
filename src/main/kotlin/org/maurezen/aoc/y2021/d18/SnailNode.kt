@@ -29,6 +29,14 @@ class SnailNode(var value: SnailNumber): Node() {
         value.second.rightSet(target)
     }
 
+    override fun deepCopy(): Node {
+        val copy = SnailNode(value.deepCopy())
+        copy.leftSet(left)
+        copy.rightSet(right)
+        copy.depthSet(depth)
+        return copy
+    }
+
     override fun toString(): String {
         return "$value"
     }

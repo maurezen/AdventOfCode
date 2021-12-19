@@ -18,6 +18,14 @@ class IntNode(var value: Int): Node() {
         right = target
     }
 
+    override fun deepCopy(): Node {
+        val copy = IntNode(value)
+        copy.left = left
+        copy.right = right
+        copy.depth = depth
+        return copy
+    }
+
     override fun toString(): String {
         return "$value"
     }

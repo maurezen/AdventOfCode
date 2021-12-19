@@ -1,11 +1,13 @@
 package org.maurezen.aoc.y2021.d18
 
 /**
- * Mutates provided snail numbers, if any, gluing them together with node references
+ * Has to provide immutability for pt2
  */
 class SnailNumber(var first: Node, var second: Node): Iterable<IntNode> {
 
     init {
+        first = first.deepCopy()
+        second = second.deepCopy()
         first.rightSet(second.leftmost())
         second.leftSet(first.rightmost())
 
@@ -121,5 +123,9 @@ class SnailNumber(var first: Node, var second: Node): Iterable<IntNode> {
             next = result!!.right
             return result
         }
+    }
+
+    fun deepCopy(): SnailNumber {
+        return SnailNumber(first.deepCopy(), second.deepCopy())
     }
 }
