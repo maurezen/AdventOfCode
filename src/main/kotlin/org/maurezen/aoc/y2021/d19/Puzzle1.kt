@@ -20,11 +20,9 @@ open class Puzzle1 : ListPuzzle<ScannerReport, Int> {
         while (list.size > 1) {
             run outer@{
                 (list.indices x list.indices).filterNot { it.first == it.second }.forEach {
-                    println("looking at scanners ${it.first} and ${it.second}")
                     val intersect = list[it.first].intersect(list[it.second])
                     if (intersect.first.size >= 12) {
-                        list[it.first] =
-                            list[it.first].union(list[it.second], intersect.second, intersect.third, intersect.fourth)
+                        list[it.first] = list[it.first].union(list[it.second], intersect.second, intersect.third, intersect.fourth).first
                         list.removeAt(it.second)
                         // gonna burn in hell for this, but at this point into day 19 idgaf
                         return@outer
@@ -33,10 +31,6 @@ open class Puzzle1 : ListPuzzle<ScannerReport, Int> {
             }
         }
         
-        return score(list)
-    }
-
-    private fun score(list: MutableList<ScannerReport>): Int {
         return list.first().measurements.size
     }
 
@@ -91,7 +85,6 @@ class ScannerReport(val measurements: Set<Point3D>) {
     fun intersect(another: ScannerReport): Quadruple<List<Point3D>, Matrix<Int>, Int, Int> {
         //translate this measurements to some
         measurements.forEachIndexed { index, anchor ->
-            println("anchoring this to index $index")
             val anchored = measurements.map { with(natural) { it - anchor } }
 
             //for each possible change of orientation of another
@@ -116,7 +109,7 @@ class ScannerReport(val measurements: Set<Point3D>) {
     }
 
     // returns a union of points in this scanner's coordinates
-    fun union(another: ScannerReport, rotation: Matrix<Int>, anchorIndex: Int, anotherAnchorIndex: Int): ScannerReport {
+    fun union(another: ScannerReport, rotation: Matrix<Int>, anchorIndex: Int, anotherAnchorIndex: Int): Pair<ScannerReport, Point<Int>> {
         val union = mutableListOf<Point3D>()
         val anchor = measurements.toList()[anchorIndex]
         union.addAll(measurements.map { with(natural) { it - anchor } })
@@ -126,9 +119,8 @@ class ScannerReport(val measurements: Set<Point3D>) {
         union.addAll(anotherRotated.map { with(natural) { it - anotherAnchor } })
 
         val anotherCoord = with(natural) { anchor - anotherAnchor }
-        println("another coordinates: $anotherCoord")//@todo
 
-        return ScannerReport(union.deduplicate(pointparator).map { with(natural) { it + anchor } }.toSet())
+        return Pair(ScannerReport(union.deduplicate(pointparator).map { with(natural) { it + anchor } }.toSet()), anotherCoord)
     }
 }
 
@@ -139,26 +131,6 @@ fun rotate(points: Collection<Point3D> , rotation: Matrix<Int>): List<Point3D> {
 typealias Point3D = Point<Int>
 
 data class Quadruple<T1, T2, T3, T4>(val first: T1, val second: T2, val third: T3, val fourth: T4)
-
-//data class Point3D(val x: Int, val y: Int, val z: Int) {
-//
-//    operator fun plus(another: Point3D): Point3D {
-//        return Point3D(x + another.x, y + another.y, z + another.y)
-//    }
-//
-//    operator fun minus(another: Point3D): Point3D {
-//        return Point3D(x - another.x, y - another.y, z - another.y)
-//    }
-//
-//    fun rotate(rotation: Array<IntArray>): Point3D {
-//        val vector = listOf(x, y, z)
-//        return Point3D(
-//            vector.mapIndexed { index, figure -> rotation[0][index]*figure}.sum(),
-//            vector.mapIndexed { index, figure -> rotation[1][index]*figure}.sum(),
-//            vector.mapIndexed { index, figure -> rotation[2][index]*figure}.sum()
-//        )
-//    }
-//}
 
 val natural = LinearSpace.auto(IntRing)
 
