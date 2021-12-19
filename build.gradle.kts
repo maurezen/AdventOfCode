@@ -10,9 +10,11 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+    maven("https://repo.kotlin.link")
 }
 
 dependencies {
+    api("space.kscience:kmath-core-jvm:0.3.0-dev-14")
     testImplementation(kotlin("test"))
 }
 
