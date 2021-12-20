@@ -21,7 +21,7 @@ open class Puzzle1 : Puzzle<Pair<String, List<String>>, Int> {
         return score(image)
     }
 
-    private fun steps() = 2
+    protected open fun steps() = 2
 
     private fun enhance(image: List<String>, algorithm: String, dflt: Char): Pair<List<String>, Char> {
         val result = mutableListOf<String>()
