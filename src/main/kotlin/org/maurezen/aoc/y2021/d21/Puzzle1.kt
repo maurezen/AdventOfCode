@@ -1,27 +1,22 @@
 package org.maurezen.aoc.y2021.d21
 
 import org.maurezen.aoc.ListPuzzle
-import org.maurezen.aoc.Puzzle
-import org.maurezen.aoc.utils.readFile
 import org.maurezen.aoc.utils.readStuffFromFile
-import java.lang.IllegalArgumentException
-import java.lang.StringBuilder
 
-open class Puzzle1 : ListPuzzle<Int, Int> {
+open class Puzzle1 : ListPuzzle<Int, Long> {
 
-    private val board = (1..10).toList()
+    protected val board = (1..10).toList()
     private val turns = 3
-    private val target = 1000
 
     private val die = DeterministicDie(100)
 
-    override fun run(input: List<Int>): Int {
+    override fun run(input: List<Int>): Long {
         val positions = input.map { it - 1 }.toMutableList()
         val scores = positions.map { 0 }.toMutableList()
 
         var current = 0
         var rolls = 0
-        while (scores.none { it >= target }) {
+        while (scores.none { it >= target() }) {
             var move = 0
             repeat(turns) {
                 move += die.next()
@@ -32,10 +27,10 @@ open class Puzzle1 : ListPuzzle<Int, Int> {
             rolls += 3
         }
 
-        return rolls * scores.minOf { it }
+        return rolls * scores.minOf { it }.toLong()
     }
 
-    private fun steps() = 2
+    protected open fun target() = 1000
 
     override fun inputName(): String {
         return "/input21-1"
