@@ -9,10 +9,6 @@ class Puzzle2: Puzzle1() {
     }
 }
 
-infix fun <V, U> Iterable<V>.x(another: Iterable<U>): Iterable<Pair<V, U>> {
-    return this.map { first -> another.map { Pair(first, it) } }.flatten()
-}
-
 fun main() {
     Puzzle2().solve()
 }

@@ -55,9 +55,7 @@ open class Puzzle1 : ListPuzzle<Cube, Long> {
     }
 }
 
-fun range(from: Int, to: Int): IntRange {
-    return if (from < to) (from..to) else (to..from)
-}
+
 
 fun main() {
     Puzzle1().solve()
