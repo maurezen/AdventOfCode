@@ -12,7 +12,7 @@ open class Puzzle1 : Puzzle<Packet, Long> {
     }
 
     override fun inputName(): String {
-        return "/input16-1"
+        return "/y2021/input16-1"
     }
 
     override fun input(): Packet {

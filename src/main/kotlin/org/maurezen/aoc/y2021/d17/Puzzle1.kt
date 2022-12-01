@@ -53,7 +53,7 @@ open class Puzzle1 : Puzzle<Pair<Point, Point>, Int> {
     }
 
     override fun inputName(): String {
-        return "/input17-1"
+        return "/y2021/input17-1"
     }
 
     override fun input(): Pair<Point, Point> {

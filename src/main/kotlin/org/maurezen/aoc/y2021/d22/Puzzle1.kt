@@ -32,7 +32,7 @@ open class Puzzle1 : ListPuzzle<Cube, Long> {
     }
 
     override fun inputName(): String {
-        return "/input22-1"
+        return "/y2021/input22-1"
     }
 
     override fun input(): List<Cube> {

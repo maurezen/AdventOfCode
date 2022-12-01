@@ -38,7 +38,7 @@ open class Puzzle1 : org.maurezen.aoc.y2021.d09.Puzzle1() {
     }
 
     override fun inputName(): String {
-        return "/input15-1"
+        return "/y2021/input15-1"
     }
 }
 

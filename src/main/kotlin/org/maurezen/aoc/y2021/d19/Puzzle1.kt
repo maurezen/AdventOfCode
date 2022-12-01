@@ -35,7 +35,7 @@ open class Puzzle1 : ListPuzzle<ScannerReport, Int> {
     }
 
     override fun inputName(): String {
-        return "/input19-1"
+        return "/y2021/input19-1"
     }
 
     override fun input(): List<ScannerReport> {

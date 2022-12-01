@@ -1,8 +1,6 @@
 package org.maurezen.aoc.y2021.d06
 
 import org.maurezen.aoc.NumericCSVPuzzle
-import org.maurezen.aoc.NumericListPuzzle
-import org.maurezen.aoc.utils.readStuffFromFile
 import java.math.BigInteger
 
 open class Puzzle1: NumericCSVPuzzle<BigInteger> {
@@ -35,7 +33,7 @@ open class Puzzle1: NumericCSVPuzzle<BigInteger> {
     }
 
     override fun inputName(): String {
-        return "/input06-1"
+        return "/y2021/input06-1"
     }
 }
 

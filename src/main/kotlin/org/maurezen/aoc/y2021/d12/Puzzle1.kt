@@ -39,7 +39,7 @@ open class Puzzle1 : Puzzle<Pair<List<Cave>, Map<Cave, List<Passage>>>, Int> {
     ) = passage.to.big || nextPath.none { it.from == passage.to }
 
     override fun inputName(): String {
-        return "/input12-1"
+        return "/y2021/input12-1"
     }
 
     override fun input(): Pair<List<Cave>, Map<Cave, List<Passage>>> {

@@ -18,7 +18,7 @@ open class Puzzle1: Puzzle<Pair<List<Int>, List<Board>>, Int> {
     }
 
     override fun inputName(): String {
-        return "/input04-1"
+        return "/y2021/input04-1"
     }
 
     private val boardSize = 5

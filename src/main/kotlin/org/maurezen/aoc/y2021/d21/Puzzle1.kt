@@ -33,7 +33,7 @@ open class Puzzle1 : ListPuzzle<Int, Long> {
     protected open fun target() = 1000
 
     override fun inputName(): String {
-        return "/input21-1"
+        return "/y2021/input21-1"
     }
 
     override fun input(): List<Int> {

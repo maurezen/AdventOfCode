@@ -12,7 +12,7 @@ open class Puzzle1: ListPuzzle<Pair<List<String>, List<String>>, Int> {
     }
 
     override fun inputName(): String {
-        return "/input08-1"
+        return "/y2021/input08-1"
     }
 
     override fun input(): List<Pair<List<String>, List<String>>> {

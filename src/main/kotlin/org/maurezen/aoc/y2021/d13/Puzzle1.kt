@@ -29,7 +29,7 @@ open class Puzzle1 : Puzzle<Pair<Array<BooleanArray>, List<Pair<Int, Int>>>, Int
     }
 
     override fun inputName(): String {
-        return "/input13-1"
+        return "/y2021/input13-1"
     }
 
     private val foldPrefix = "fold along "

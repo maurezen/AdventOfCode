@@ -14,7 +14,7 @@ open class Puzzle1 : ListPuzzle<SnailNumber, Int> {
     }
 
     override fun inputName(): String {
-        return "/input18-1"
+        return "/y2021/input18-1"
     }
 
     override fun input(): List<SnailNumber> {

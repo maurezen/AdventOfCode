@@ -14,7 +14,7 @@ open class Puzzle1: NumericCSVPuzzle<Int> {
     protected open fun fuelCost(positions: List<Int>, target: Int): Int = positions.sumOf { abs(it - target) }
 
     override fun inputName(): String {
-        return "/input07-1"
+        return "/y2021/input07-1"
     }
 }
 

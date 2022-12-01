@@ -9,7 +9,7 @@ open class Puzzle1: NumericListPuzzle<Int> {
     }
 
     override fun inputName(): String {
-        return "/input01-1"
+        return "/y2021/input01-1"
     }
 
     override fun input(): List<Int> {

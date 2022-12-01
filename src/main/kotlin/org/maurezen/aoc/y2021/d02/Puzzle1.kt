@@ -16,7 +16,7 @@ open class Puzzle1: ListPuzzle<Pair<Direction, Int>, Int> {
     }
 
     override fun inputName(): String {
-        return "/input02-1"
+        return "/y2021/input02-1"
     }
 
     override fun input(): List<Pair<Direction, Int>> {

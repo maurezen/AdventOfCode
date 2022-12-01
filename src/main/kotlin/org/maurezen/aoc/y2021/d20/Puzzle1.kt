@@ -70,7 +70,7 @@ open class Puzzle1 : Puzzle<Pair<String, List<String>>, Int> {
     }
 
     override fun inputName(): String {
-        return "/input20-1"
+        return "/y2021/input20-1"
     }
 
     override fun input(): Pair<String, List<String>> {
