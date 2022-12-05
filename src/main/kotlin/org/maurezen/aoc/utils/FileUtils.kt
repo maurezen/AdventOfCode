@@ -2,6 +2,7 @@ package org.maurezen.aoc.utils
 
 import java.io.File
 import java.util.function.Function
+import java.util.function.Predicate
 
 class Locator {}
 
@@ -25,4 +26,25 @@ fun <T> readStuffFromFile(name: String, transformer: Function<String, T>): List<
     val list = mutableListOf<T>()
     File(path).useLines { sequence -> sequence.forEach { list.add(transformer.apply(it)) } }
     return list
+}
+
+fun <T> splitStringList(strings: List<String>, splitIf: Predicate<String>, transformer: Function<String, T>): List<List<T>> {
+    val result = mutableListOf<MutableList<T>>()
+    result.add(mutableListOf())
+    return strings.fold(result) { listOfLists, possiblyEmptyString ->
+        if (splitIf.test(possiblyEmptyString)) {
+            listOfLists.add(mutableListOf())
+        } else {
+            listOfLists.last().add(transformer.apply(possiblyEmptyString))
+        }
+        listOfLists
+    }
+}
+
+fun <T> splitByEmptyString(strings: List<String>, transformer: Function<String, T>): List<List<T>> {
+    return splitStringList(strings, { it.trim().isEmpty() }, transformer)
+}
+
+fun splitByEmptyString(strings: List<String>): List<List<String>> {
+    return splitByEmptyString(strings) { it }
 }
