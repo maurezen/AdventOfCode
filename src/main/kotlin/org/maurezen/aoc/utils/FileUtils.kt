@@ -28,12 +28,15 @@ fun <T> readStuffFromFile(name: String, transformer: Function<String, T>): List<
     return list
 }
 
-fun <T> splitStringList(strings: List<String>, splitIf: Predicate<String>, transformer: Function<String, T>): List<List<T>> {
+fun <T> splitStringList(strings: List<String>, includeSplit: Boolean = false, splitIf: Predicate<String>, transformer: Function<String, T>): List<List<T>> {
     val result = mutableListOf<MutableList<T>>()
     result.add(mutableListOf())
     return strings.fold(result) { listOfLists, possiblyEmptyString ->
         if (splitIf.test(possiblyEmptyString)) {
             listOfLists.add(mutableListOf())
+            if (includeSplit) {
+                listOfLists.last().add(transformer.apply(possiblyEmptyString))
+            }
         } else {
             listOfLists.last().add(transformer.apply(possiblyEmptyString))
         }
@@ -41,10 +44,10 @@ fun <T> splitStringList(strings: List<String>, splitIf: Predicate<String>, trans
     }
 }
 
-fun <T> splitByEmptyString(strings: List<String>, transformer: Function<String, T>): List<List<T>> {
-    return splitStringList(strings, { it.trim().isEmpty() }, transformer)
+fun <T> splitByEmptyString(strings: List<String>, includeSplit: Boolean = false, transformer: Function<String, T>): List<List<T>> {
+    return splitStringList(strings, includeSplit, { it.trim().isEmpty() }, transformer)
 }
 
 fun splitByEmptyString(strings: List<String>): List<List<String>> {
-    return splitByEmptyString(strings) { it }
+    return splitByEmptyString(strings, false) { it }
 }
