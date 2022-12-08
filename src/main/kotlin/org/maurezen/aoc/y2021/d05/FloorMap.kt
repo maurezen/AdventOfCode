@@ -47,14 +47,6 @@ class FloorMap(private val size: Int) {
 
     }
 
-    /**
-     * an interval between from and to, inclusive, disregarding their comparison
-     */
-    private fun interval(
-        from: Int,
-        to: Int
-    ) = (if (from > to) (from downTo to) else (from..to))
-
     fun danger() = danger
 
     override fun toString(): String {
@@ -71,6 +63,14 @@ class FloorMap(private val size: Int) {
     }
 
 }
+
+/**
+ * an interval between from and to, inclusive, disregarding their comparison
+ */
+fun interval(
+    from: Int,
+    to: Int
+) = (if (from > to) (from downTo to) else (from..to))
 
 typealias Point = Pair<Int, Int>
 typealias Line = Pair<Point, Point>
